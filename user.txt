@@ -1,6 +1,3 @@
 ivwqeqan:220
 sam:10
-ivwqeqan:220
-sam:10
-ivwqeqan:220
-sam:10
+

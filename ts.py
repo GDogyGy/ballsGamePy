@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import simpledialog
+from tkinter import simpledialog, messagebox
 from random import randint
 
 WIDTH = 300
@@ -40,16 +40,20 @@ class User:
     def find_user(self):
         f = open('user.txt', 'r')
         for line in f:
-            print(line)    # дописать тут проверку на созданного пользователя и переписывать ему очки в файл
+            if self.name == line.split(':')[0]:
+                self.lastPoints = line.split(':')[1]
+                return self.lastPoints
+
+
 
 def canvas_click_handler(event):
-    # print("x=", event.x , 'y=' , event.y)
     for ball in balls:
-        # print(ball.x)
         if (((ball.x - event.x) ** 2 ) ** 0.5)+(((ball.y - event.y) ** 2) ** 0.5) <= ball.R: # По теореме пифогора расстояние между 2 точками
-            print(ball.pick_color)
             canvas.delete(ball.ball_id)
-            del ball # TODO проверить удаляет ли экземпляр класса
+            #del ball # TODO проверить удаляет ли экземпляр класса
+            print(canvas)
+            print(ball)
+            print(type(ball))
             break
 
 
@@ -62,12 +66,13 @@ def tick():
 
 def main():
     global root, canvas, balls, name
-    # application_window = tk.Tk()
-    # name = simpledialog.askstring("Input", "What is your first name?", parent=application_window)
-    # print(name)
-
     root = tk.Tk()
     name = simpledialog.askstring("Input", "What is your first name?", parent=root)
+    user = User(name,'0')
+    if user.find_user():
+        messagebox.showinfo("Information", "Привет "+ user.name +" я тебя помню!\nТы набрал:" + user.lastPoints + " очков!")
+    else:
+        pass
     root.geometry(str(WIDTH) + "x" + str(HEIGHT))
     canvas = tk.Canvas(root)
     canvas.pack(anchor="nw", fill=tk.BOTH)
@@ -78,13 +83,9 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
-    us = User('ivwqeqan', '220')
-    us2 = User('sam', '10')
-    us.remember_user()
-    us.find_user()
-    us2.remember_user()
-    us2.find_user()
+    main()
+
+
 
 
 
